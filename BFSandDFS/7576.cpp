@@ -1,7 +1,7 @@
 /*
   작성자 : 박진현
   문제 : 백준 7576번, 토마토
-  상태 : 미완
+  상태 : 미완 -> 알고리즘 구현.. 다만 메모리 초과, 아마 백준에서 구조체를 사용하면 넘치는듯?
 */
 #include <stdio.h>
 #include <queue>
@@ -22,15 +22,12 @@ int M, N;
 
 int map[1000][1000] = { 0, };
 int answer_map[1000][1000] = { -1, };
-int visit[1000][1000] = { 0, };
 
 // 동 서 남 북
 int row_dir[4] = { 0,0,1,-1 };
 int col_dir[4] = { 1,-1,0,0 };
 
-void BFS(int row, int col, int day) {
-	Queue.push(position(row, col, day));
-
+void BFS() {
 	while (!Queue.empty()) {
 		position temp = Queue.front();
 		Queue.pop();
@@ -41,7 +38,7 @@ void BFS(int row, int col, int day) {
 
 		for (int i = 0; i < 4; i++) {
 			if (temp.row + row_dir[i] >= 0 && temp.row + row_dir[i] < N && temp.col + col_dir[i] >= 0 && temp.col + col_dir[i] < M) {
-				if (answer_map[temp.row + row_dir[i]][temp.col + col_dir[i]] == -1) {
+				if (!map[temp.row+row_dir[i]][temp.col+col_dir[i]] && answer_map[temp.row + row_dir[i]][temp.col + col_dir[i]] == -1) {
 					Queue.push(position(temp.row + row_dir[i], temp.col + col_dir[i], nextDay));
 				}
 			}
@@ -63,14 +60,16 @@ int main(void) {
 		}
 	}
 
-	// 본 적 없는 토마토면 탐색
+	//// 본 적 없는 토마토면 탐색
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			if (map[i][j] && answer_map[i][j] == -1) {
-				BFS(i, j, day);
+			if (map[i][j]==1) {
+				Queue.push(position(i, j, day));
 			}
 		}
 	}
+
+	BFS();
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
