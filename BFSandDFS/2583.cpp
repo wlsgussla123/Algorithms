@@ -1,7 +1,7 @@
 /*
 	작성자 : 박진현
 	문제 : 백준 2583번, 영역 구하기 문제
-	날짜 : 17.09.27
+	날짜 : 17.09.29. 완료, 카운팅 부분에서 잘못했었음
 */
 
 #include <stdio.h>
@@ -51,10 +51,11 @@ void DFS(int row, int col, int cnt) {
 
 int main(void) {
 	int cnt = 1;
+	bool check = true;
 
 	// M : 행, N : 열
 	scanf("%d %d", &M, &N);
-	scanf("%d", &K);
+	scanf("%d", &K); // 직사각형 개수
 	
 	for (int i = 0; i < K; i++) {
 		scanf("%d %d %d %d", &lx, &ly, &rx, &ry);
@@ -76,15 +77,7 @@ int main(void) {
 		}
 	}
 
-	//putchar('\n');
-	//for (int i = 0; i < M; i++) {
-	//	for (int j = 0; j < N; j++) {
-	//		printf("%d ", answer_map[i][j]);
-	//	}
-	//	putchar('\n');
-	//}
-
-	for (int k = 1; k <= N; k++) {
+	for (int k = 1; k < cnt; k++) {
 		int count = 0;
 
 		for (int i = 0; i < M; i++) {
@@ -101,9 +94,7 @@ int main(void) {
 	printf("%d\n", cnt - 1);
 
 	for (int i = 0; i < (int)answer.size(); i++) {
-		if (answer[i] != 0) {
-			printf("%d ", answer[i]);
-		}
+		printf("%d ", answer[i]);
 	}
 	putchar('\n');
 
