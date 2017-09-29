@@ -1,27 +1,20 @@
 /*
   작성자 : 박진현
   문제 : 백준 7576번, 토마토
-  상태 : 미완 -> 알고리즘 구현.. 다만 메모리 초과, 아마 백준에서 구조체를 사용하면 넘치는듯?
+  상태 : 완료. (3일 간의 투쟁..)
 */
 #include <stdio.h>
 #include <queue>
+#include <utility>
 
 using namespace std;
 
-struct position {
-	int row;
-	int col;
-	int day;
-
-	position(int r, int c, int d) : row(r), col(c), day(d) {}
-};
-
-queue<position> Queue;
+queue<pair<int, int>> Queue;
 
 int M, N;
 
 int map[1000][1000] = { 0, };
-int answer_map[1000][1000] = { -1, };
+int answer_map[1000][1000] = { 0, };
 
 // 동 서 남 북
 int row_dir[4] = { 0,0,1,-1 };
@@ -29,17 +22,16 @@ int col_dir[4] = { 1,-1,0,0 };
 
 void BFS() {
 	while (!Queue.empty()) {
-		position temp = Queue.front();
+		int row = Queue.front().first;
+		int col = Queue.front().second;
+	
 		Queue.pop();
 
-		answer_map[temp.row][temp.col] = temp.day;
-
-		int nextDay = temp.day + 1;
-
 		for (int i = 0; i < 4; i++) {
-			if (temp.row + row_dir[i] >= 0 && temp.row + row_dir[i] < N && temp.col + col_dir[i] >= 0 && temp.col + col_dir[i] < M) {
-				if (!map[temp.row+row_dir[i]][temp.col+col_dir[i]] && answer_map[temp.row + row_dir[i]][temp.col + col_dir[i]] == -1) {
-					Queue.push(position(temp.row + row_dir[i], temp.col + col_dir[i], nextDay));
+			if (row + row_dir[i] >= 0 && row + row_dir[i] < N && col + col_dir[i] >= 0 && col + col_dir[i] < M) {
+				if (!map[row+row_dir[i]][col+col_dir[i]] && answer_map[row + row_dir[i]][col + col_dir[i]] == 0) {
+					answer_map[row + row_dir[i]][col + col_dir[i]] = answer_map[row][col] + 1;
+					Queue.push(make_pair(row + row_dir[i], col + col_dir[i]));
 				}
 			}
 		}
@@ -49,6 +41,7 @@ void BFS() {
 int main(void) {
 	int day = 0;
 	int max = -1;
+	bool check = true;
 
 	// row : N, col : M
 	scanf("%d %d", &M, &N);
@@ -56,15 +49,27 @@ int main(void) {
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			scanf("%d", &map[i][j]);
-			answer_map[i][j] = -1;
+
+			if (map[i][j] == -1) {
+				answer_map[i][j] = -1;
+			}
+
+			if (map[i][j] != 1) {
+				check = false;
+			}
 		}
 	}
 
-	//// 본 적 없는 토마토면 탐색
+	if (check) {
+		printf("0\n");
+		return 0;
+	}
+
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			if (map[i][j]==1) {
-				Queue.push(position(i, j, day));
+				Queue.push(make_pair(i,j));
+				answer_map[i][j] = 1;
 			}
 		}
 	}
@@ -73,19 +78,18 @@ int main(void) {
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			if (max < answer_map[i][j]) {
+			if (answer_map[i][j] == 0) {
+				printf("-1\n");
+				return 0;
+			}
+			else if (max < answer_map[i][j]) {
 				max = answer_map[i][j];
 			}
 		}
 	}
 
-	if (max) {
-		printf("%d\n", max);
-	}
-	else {
-		printf("-1\n");
-	}
-
+	printf("%d\n", max-1);
+	
 	return 0;
 }
 
