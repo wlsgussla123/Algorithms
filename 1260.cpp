@@ -1,6 +1,5 @@
-
 /*
-작정자 : 박진현
+작성자 : 박진현
 문제 : 백준 1260번, DFS와 BFS
 */
 
@@ -42,21 +41,23 @@ void DFS(int start) {
 void BFS(int start) {
 	bfsVisit[start] = 1;
 
-	printf("%d ", start + 1);
-
-	for (int i = 0; i < vCount; i++) {
-		if (map[start][i] == 1 && bfsVisit[i] == 0) {
-			Queue.push(i); // 2,3
-		}
-	}
+	Queue.push(start);
 
 	while (!Queue.empty()) {
-		int temp = Queue.front();
+		int vertex = Queue.front();
 		Queue.pop();
 
-		if (bfsVisit[temp] == 0) {
-			BFS(temp);
+		for (int i = 0; i < vCount; i++) {
+			if (vertex == i)
+				continue;
+
+			if (!bfsVisit[i] && map[vertex][i]) {
+				bfsVisit[i] = 1;
+				Queue.push(i);
+			}
 		}
+
+		printf("%d ", vertex + 1);
 	}
 }
 
