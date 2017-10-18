@@ -53,7 +53,7 @@ int main(void) {
 	int price[5] = { 0, 1, 4, 5, 7 };
 	int weight[5] = { 0, 1, 3, 4, 5 };
 	int Weight = 7; // 배낭의 한계
-	int answer = knapsack(3, Weight, price, weight);
+	int answer = knapsack(4, Weight, price, weight);
 
 	cout << answer << endl;
 
