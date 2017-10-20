@@ -48,7 +48,7 @@ void cross(int row, int col) {
 	if (col - 1 >= 0 && col + 1 < M && row + 1 < N)
 		answer = max(answer, map[row][col] + map[row + 1][col] + map[row][col - 1] + map[row][col + 1]);
 	// ㅗ
-	if (col - 1 >= 0 && col + 1 < M && row - 1 < N)
+	if (col - 1 >= 0 && col + 1 < M && row - 1 >= 0)
 		answer = max(answer, map[row][col] + map[row - 1][col] + map[row][col - 1] + map[row][col + 1]);
 }
 
