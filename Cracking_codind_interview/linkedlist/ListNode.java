@@ -1,20 +1,15 @@
 package algo;
 
-public class ListNode {
-	String data;
+public class ListNode<T> {
+	T data;
 	ListNode next;
-	
-	public ListNode() {
-		this.data = null;
-		this.next = null;
-	}
-	
-	public ListNode(String data) {
+
+	public ListNode(T data) {
 		this.data = data;
 		this.next = null;
 	}
 	
-	public String getData() {
+	public T getData() {
 		return this.data;
 	}
 }

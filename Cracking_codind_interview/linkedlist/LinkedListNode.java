@@ -1,14 +1,14 @@
 package algo;
 
-public class LinkedListNode {
-	public ListNode head;
+public class LinkedListNode<T> {
+	public ListNode<T> head;
 	
 	public LinkedListNode() {
 		this.head = null;
 	}
 	
-	void insertLastNode(String data) {
-		ListNode newNode = new ListNode(data);
+	void insertLastNode(T data) {
+		ListNode<T> newNode = new ListNode(data);
 		if(head == null) {
 			head = newNode;
 			return;
@@ -21,8 +21,8 @@ public class LinkedListNode {
 		cur.next = newNode;
 	}
 	
-	void insertMiddleNode(int index, String data) {
-		ListNode newNode = new ListNode(data);
+	void insertMiddleNode(int index, T data) {
+		ListNode<T> newNode = new ListNode(data);
 		
 		ListNode cur = head;
 		int curIndex = 1;
@@ -35,15 +35,15 @@ public class LinkedListNode {
 		cur.next = newNode;
 	}
 	
-	void insertFirstNode(String data) {
-		ListNode newNode = new ListNode(data);
+	void insertFirstNode(T data) {
+		ListNode<T> newNode = new ListNode(data);
 
 		newNode.next = head;
 		head = newNode;
 	}
 	
-	String deleteFirstNode() {
-		String delData = null;
+	T deleteFirstNode() {
+		T delData = null;
 		
 		if(head == null) {
 			System.out.println("list is empty");
@@ -55,10 +55,10 @@ public class LinkedListNode {
 		return delData;
 	}
 	
-	String deleteMiddleNode(String data) {
-		String delData = null;
-		ListNode cur = null;
-		ListNode prev = null;
+	T deleteMiddleNode(String data) {
+		T delData = null;
+		ListNode<T> cur = null;
+		ListNode<T> prev = null;
 		
 		if(head == null) {
 			System.out.println("list is empty");
@@ -76,10 +76,10 @@ public class LinkedListNode {
 		return delData;
 	}
 	
-	String deleteLastNode() {
-		String delData = null;
-		ListNode prev = null;
-		ListNode cur = null;
+	T deleteLastNode() {
+		T delData = null;
+		ListNode<T> prev = null;
+		ListNode<T> cur = null;
 		
 		if(head == null) {
 			System.out.println("null pointer exception");
