@@ -124,45 +124,36 @@ class Task {
 		
 		return false;
 	}
-
+	
+	private void working(int value) {
+		for(int i=1; i<=N; i++) {
+			for(int j=1; j<=M; j++) {
+				if(i!=1 && i!=N && j!=1 && j!=M) continue;
+				if(map[i][j]!='*') {
+					// 만약 외곽이 문인데 키가 없으면 pass
+					if(map[i][j] >= 'A' && map[i][j] <= 'Z') {
+						if(!key[map[i][j]-'A']) continue;
+					}
+					if(value == 0) {
+						if(getKeys(i,j)) {
+							i=1;
+							j=0;
+						}
+					} else {
+						if(getDocuments(i,j)) {
+							i=1;
+							j=0;
+						}
+					}
+					visited = new boolean[N+1][M+1];
+				}
+			}
+		}		
+	}
+	
 	private void process() throws IOException {
-		for(int i=1; i<=N; i++) {
-			for(int j=1; j<=M; j++) {
-				if(i!=1 && i!=N && j!=1 && j!=M) continue;
-				if(map[i][j]!='*') {
-					// 만약 외곽이 문인데 키가 없으면 pass
-					if(map[i][j] >= 'A' && map[i][j] <= 'Z') {
-						if(!key[map[i][j]-'A']) continue;
-					}
-					if(getKeys(i,j)) {
-						i=1;
-						j=0;
-					}
-					visited = new boolean[N+1][M+1];
-				}
-			}
-		}
-//		printMap();
-		
-		for(int i=1; i<=N; i++) {
-			for(int j=1; j<=M; j++) {
-				if(i!=1 && i!=N && j!=1 && j!=M) continue;
-				// 벽이면 못 가
-				if(map[i][j]!='*') {
-					// 만약 외곽이 문인데 키가 없으면 pass
-					if(map[i][j] >= 'A' && map[i][j] <= 'Z') {
-						if(!key[map[i][j]-'A']) continue;
-					}
-
-					if(getDocuments(i, j)) {
-						i=1;
-						j=0;
-					}
-					visited = new boolean[N+1][M+1];
-				}
-			}
-		}
-		
+		working(0);
+		working(1);
 		System.out.println(answer);
 	}
 	
