@@ -12,19 +12,27 @@ class Trie {
 	public void insert(String key, int idx) {
 		if(key.length() == idx) {
 			finish = true;
-		} else {
-			int curr = key.charAt(idx) - 'A';
-			if(next[curr] == null) {
-				next[curr] = new Trie();
-			}
-			next[curr].insert(key, idx+1);
+			return;
 		}
+		
+		int curr = key.charAt(idx) - 'A';
+		if(next[curr] == null) {
+			next[curr] = new Trie();
+		}
+		
+		next[curr].insert(key, idx+1);
 	}
 	
 	public boolean find(String key, int idx) {
-		if(key.length() == idx) return true;
+		if(key.length() == idx) {
+			if(finish) return true;
+			else return false;
+		}
+		
 		int curr = key.charAt(idx) - 'A';
-		if(next[curr] == null) return false;
+		if(next[curr] == null) {
+			return false;
+		}
 		return next[curr].find(key, idx+1);
 	}
 }
@@ -32,7 +40,7 @@ class Trie {
 public class TrieMain {
 	public static void main(String[] args) {
 		Trie root = new Trie();
-		String[] strs = {"BA", "BAG", "ABC"};
+		String[] strs = {"BA", "BAG", "ABC", "ABCD"};
 		int len = strs.length;
 		for(int i=0; i<len; i++) {
 			root.insert(strs[i], 0);
@@ -44,7 +52,7 @@ public class TrieMain {
 			}
 		}
 		
-		if(root.find("ABCD", 0)) {
+		if(root.find("A", 0)) {
 			System.out.println("found");
 		} else {
 			System.out.println("not found");
